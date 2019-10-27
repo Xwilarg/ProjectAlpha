@@ -7,4 +7,14 @@ public class Menu : MonoBehaviour
     {
         SceneManager.LoadScene("Main");
     }
+
+    public void QuickPlay()
+    {
+        SceneManager.LoadScene("CharacterSelection");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
