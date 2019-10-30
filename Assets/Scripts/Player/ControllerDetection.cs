@@ -13,6 +13,9 @@ public class ControllerDetection : MonoBehaviour
 
     private List<User> users;
 
+    public List<User> GetUsers()
+        => users;
+
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
@@ -30,9 +33,9 @@ public class ControllerDetection : MonoBehaviour
             }
             else
             {
-                for (int i = 0; i < 4; i++) // TODO; Must check what controller is used
+                for (int i = 0; i < 4; i++)
                 {
-                    if (Input.GetKeyDown("joystick button 0"))
+                    if (Input.GetKeyDown((KeyCode)User.button0KeyCode))
                     {
                         if (!users.Any(x => x.GetControllerId() == i))
                             users.Add(new User(i, controllerMenu[users.Count]));
@@ -47,22 +50,4 @@ public class ControllerDetection : MonoBehaviour
 
     public bool GetKeyDown(string key, int id)
         => users[id].GetKeyDown(key);
-
-    private struct User
-    {
-        public User(int controller, Text controllerText)
-        {
-            _controller = controller;
-            string name = _controller == -1 ? "Keyboard" : Input.GetJoystickNames()[_controller];
-            controllerText.text = name;
-        }
-
-        public bool GetKeyDown(string key)
-            => Input.GetKeyDown(key);
-
-        public int GetControllerId()
-            => _controller;
-
-        private int _controller;
-    }
 }

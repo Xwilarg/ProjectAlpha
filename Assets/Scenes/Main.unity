@@ -589,3 +589,10 @@ MonoBehaviour:
   - {fileID: 1706899488}
   - {fileID: 1699298647}
   - {fileID: 1243900547}
+  playerPrefab: {fileID: 8373376609506592855, guid: e3a525f90c0b8c8458674418d73d3f01,
+    type: 3}
+  materials:
+  - {fileID: 2100000, guid: cde6defa54313b44c99e680e9f6246e2, type: 2}
+  - {fileID: 2100000, guid: 2cc61872d77794e438ec2b2d4cd38f3e, type: 2}
+  - {fileID: 2100000, guid: 3234af85091cec44ea3220b1a59479f9, type: 2}
+  - {fileID: 2100000, guid: e73106c80544a434b84efb255c2f6627, type: 2}
