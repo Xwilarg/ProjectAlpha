@@ -17,14 +17,16 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         controller = GameObject.Find("IntroController").GetComponent<ControllerDetection>();
-        rb = GetComponent<Rigidbody>();
+        var users = controller.GetUsers();
+        GameObject.Find("RpcManager")?.GetComponent<RpcManager>().StartGame(users.Count);
         int i = 0;
-        foreach (var user in controller.GetUsers())
+        foreach (var user in users)
         {
             GameObject go = Instantiate(playerPrefab, spawns[i].transform.position, Quaternion.identity);
             go.GetComponent<Renderer>().material = materials[i];
             go.GetComponent<PlayerController>().SetUser(controller.GetUsers()[i]);
             i++;
         }
+        rb = GetComponent<Rigidbody>();
     }
 }
