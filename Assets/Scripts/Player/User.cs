@@ -44,8 +44,8 @@ public class User
 
         if (_controller > -1f)
         {
-            x = Input.GetAxis("Joy" + _controller + "X");
-            y = Input.GetAxis("Joy" + _controller + "Y");
+            x = Input.GetAxis("Joy" + _controller + "X1");
+            y = Input.GetAxis("Joy" + _controller + "Y1");
         }
         if (GetKey("left"))
             x = -1f;
