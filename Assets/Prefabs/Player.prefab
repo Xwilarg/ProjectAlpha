@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: 8373376609506592853}
   - component: {fileID: 8373376609506592852}
   - component: {fileID: -6489944817489823323}
+  - component: {fileID: 381259759081573855}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -253,3 +254,25 @@ MonoBehaviour:
   gunEnd: {fileID: 4634174174531178412}
   bulletPrefab: {fileID: 7215980308398970140, guid: 6226f9fc63e6b83408c113b2e1abb022,
     type: 3}
+--- !u!195 &381259759081573855
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8373376609506592855}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 10
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
