@@ -4,17 +4,20 @@
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private Transform gunEnd;
+    private Transform gunEnd; // From where the bullet is shoot
 
     [SerializeField]
     private GameObject bulletPrefab;
 
-    private User user;
     private Rigidbody rb;
-    private const float speed = 10f;
-    private float reloadTimer;
+    private User user; // For inputs
+    private const float speed = 10f; // Player speed
+    private float reloadTimer; // Timer to check when the player can next shoot
+    private Shake camShake; // To shake the camera
+    private Gun gun; // Player weapon
 
-    private Gun gun;
+    private const float shakeForce = 1f; // Force of the screen shake;
+    private const float shakeDuration = .1f;
 
     public void SetUser(User value)
         => user = value;
@@ -24,6 +27,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         gun = Gun.handgun;
         reloadTimer = 0f;
+        camShake = Camera.main.GetComponent<Shake>();
     }
 
     private void Update()
@@ -46,5 +50,6 @@ public class PlayerController : MonoBehaviour
         GameObject go = Instantiate(bulletPrefab, gunEnd.position, Quaternion.identity);
         go.GetComponent<Rigidbody>().AddForce(transform.forward * gun.GetFireForce(), ForceMode.Impulse);
         Destroy(go, 5f);
+        camShake.ShakeMe(shakeForce, shakeDuration);
     }
 }
