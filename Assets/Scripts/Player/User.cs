@@ -60,6 +60,25 @@ public class User
     public bool GetKey(string key)
         => keybind[key].IsPressed(_controller);
 
+    public Quaternion GetRotation(Vector3 playerPos)
+    {
+        float x, y;
+        if (_controller > -1f)
+        {
+            x = Input.GetAxis("Joy" + _controller + "X2");
+            y = Input.GetAxis("Joy" + _controller + "Y2");
+        }
+        else
+        {
+            Vector3 mousePos = Input.mousePosition;
+            Vector3 pos = Camera.main.WorldToScreenPoint(playerPos);
+            x = mousePos.x - pos.x;
+            y = mousePos.y - pos.y;
+        }
+        var angle = Mathf.Atan2(y, x) * Mathf.Rad2Deg - 90f;
+        return Quaternion.Euler(0f, -angle, 0f);
+    }
+
     public Vector3 GetMovement()
     {
         float x = 0f;

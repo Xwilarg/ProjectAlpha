@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
             Shoot();
             reloadTimer = gun.GetReloadTime();
         }
+        transform.rotation = user.GetRotation(transform.position);
     }
 
     private void FixedUpdate()
