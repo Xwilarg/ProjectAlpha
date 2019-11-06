@@ -5,20 +5,48 @@ using UnityEngine.UI;
 public class User
 {
     public static readonly int button0KeyCode = (int)KeyCode.Joystick1Button0;
-    private static readonly int nextJoystick = 20; // That means that if you add 20 to button0KeyCode you get the button 0 of the joystick 2
+    public static readonly int nextJoystick = 20; // That means that if you add 20 to button0KeyCode you get the button 0 of the joystick 2
 
     public static Dictionary<string, Key> keybind = new Dictionary<string, Key>()
     {
-        { "left",   new Key{ keyboard = KeyCode.A, keycontroller = (KeyCode)(button0KeyCode + 14) } },
-        { "right",  new Key{ keyboard = KeyCode.D, keycontroller = (KeyCode)(button0KeyCode + 15) } },
-        { "up",     new Key{ keyboard = KeyCode.W, keycontroller = (KeyCode)(button0KeyCode + 12) } },
-        { "down",   new Key{ keyboard = KeyCode.S, keycontroller = (KeyCode)(button0KeyCode + 13) } }
+        { "left",   new Key(new[]{ KeyCode.A, KeyCode.LeftArrow }, null, null) },
+        { "right",  new Key(new[]{ KeyCode.D, KeyCode.RightArrow }, null, null) },
+        { "up",     new Key(new[]{ KeyCode.W, KeyCode.UpArrow }, null, null) },
+        { "down",   new Key(new[]{ KeyCode.S, KeyCode.DownArrow }, null, null) }
     };
 
-    public struct Key
+    public class Key
     {
-        public KeyCode keyboard;
-        public KeyCode keycontroller;
+        public Key(KeyCode[] keyboard, KeyCode[] keyController, int[] mouseButton)
+        {
+            _keyboard = keyboard ?? new KeyCode[] { };
+            _keycontroller = keyController ?? new KeyCode[] { };
+            _mouseButton = mouseButton ?? new int[] { };
+        }
+
+        public bool IsPressed(int controllerId)
+        {
+            if (controllerId == -1)
+            {
+                foreach (var key in _keyboard)
+                    if (Input.GetKey(key))
+                        return true;
+                foreach (var mouse in _mouseButton)
+                    if (Input.GetMouseButton(mouse))
+                        return true;
+            }
+            else
+            {
+                foreach (var key in _keycontroller)
+                    if (Input.GetKey((KeyCode)((int)key + (nextJoystick * controllerId))))
+                        return true;
+            }
+            return false;
+        }
+
+        private KeyCode[] _keyboard;
+        private KeyCode[] _keycontroller;
+        private int[] _mouseButton;
     }
 
     public User(int controller, Text controllerText)
@@ -28,14 +56,8 @@ public class User
         controllerText.text = name;
     }
 
-    public bool GetKeyDown(string key)
-        => Input.GetKeyDown(GetKeyInternal(key));
-
     public bool GetKey(string key)
-        => Input.GetKey(GetKeyInternal(key));
-
-    private KeyCode GetKeyInternal(string key)
-        => _controller == -1 ? keybind[key].keyboard : (KeyCode)((int)(keybind[key].keycontroller) + (nextJoystick * _controller));
+        => keybind[key].IsPressed(_controller);
 
     public Vector3 GetMovement()
     {

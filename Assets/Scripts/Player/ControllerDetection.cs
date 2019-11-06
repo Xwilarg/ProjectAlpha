@@ -35,7 +35,7 @@ public class ControllerDetection : MonoBehaviour
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (Input.GetKeyDown((KeyCode)User.button0KeyCode))
+                    if (Input.GetKeyDown((KeyCode)(User.button0KeyCode + (User.nextJoystick * i))))
                     {
                         if (!users.Any(x => x.GetControllerId() == i))
                             users.Add(new User(i, controllerMenu[users.Count]));
@@ -47,7 +47,4 @@ public class ControllerDetection : MonoBehaviour
                 startButton.interactable = true;
         }
     }
-
-    public bool GetKeyDown(string key, int id)
-        => users[id].GetKeyDown(key);
 }
