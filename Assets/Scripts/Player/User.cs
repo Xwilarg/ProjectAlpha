@@ -9,10 +9,11 @@ public class User
 
     public static Dictionary<string, Key> keybind = new Dictionary<string, Key>()
     {
-        { "left",   new Key(new[]{ KeyCode.A, KeyCode.LeftArrow }, null, null) },
-        { "right",  new Key(new[]{ KeyCode.D, KeyCode.RightArrow }, null, null) },
-        { "up",     new Key(new[]{ KeyCode.W, KeyCode.UpArrow }, null, null) },
-        { "down",   new Key(new[]{ KeyCode.S, KeyCode.DownArrow }, null, null) }
+        { "left",       new Key(new[]{ KeyCode.A, KeyCode.LeftArrow },  null, null) },
+        { "right",      new Key(new[]{ KeyCode.D, KeyCode.RightArrow }, null, null) },
+        { "up",         new Key(new[]{ KeyCode.W, KeyCode.UpArrow },    null, null) },
+        { "down",       new Key(new[]{ KeyCode.S, KeyCode.DownArrow },  null, null) },
+        { "fireMain",   new Key(null, new KeyCode[]{ KeyCode.Joystick1Button5 }, new int[]{ 0 }) }
     };
 
     public class Key
@@ -26,7 +27,7 @@ public class User
 
         public bool IsPressed(int controllerId)
         {
-            if (controllerId == -1)
+            if (controllerId == -1) // Is keyboard
             {
                 foreach (var key in _keyboard)
                     if (Input.GetKey(key))
@@ -35,7 +36,7 @@ public class User
                     if (Input.GetMouseButton(mouse))
                         return true;
             }
-            else
+            else // Is controller
             {
                 foreach (var key in _keycontroller)
                     if (Input.GetKey((KeyCode)((int)key + (nextJoystick * controllerId))))
