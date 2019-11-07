@@ -7,6 +7,8 @@ public class EnemyAI : MonoBehaviour
     private AIType type;
 
     public Transform[] Humans { set; get; }
+    private int hp;
+    private PlayerManager pm;
 
     public enum AIType
     {
@@ -23,6 +25,18 @@ public class EnemyAI : MonoBehaviour
 
             default:
                 throw new ArgumentException("Invalid AI type " + type.ToString());
+        }
+        hp = 5;
+        pm = GameObject.FindGameObjectWithTag("GameController").GetComponent<PlayerManager>();
+    }
+
+    public void LooseHp(int amount)
+    {
+        hp -= amount;
+        if (hp <= 0)
+        {
+            pm.DeleteEnemy(transform);
+            Destroy(gameObject);
         }
     }
 }

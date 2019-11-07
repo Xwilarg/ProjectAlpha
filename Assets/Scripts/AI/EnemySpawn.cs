@@ -14,7 +14,7 @@ public class EnemySpawn : MonoBehaviour
 
     private float spawnTimer;
     private int totalChance;
-
+    private PlayerManager pm;
     private Transform[] humans;
 
     [Serializable]
@@ -33,6 +33,7 @@ public class EnemySpawn : MonoBehaviour
         humans = t.ToArray();
         spawnTimer = spawnTimerRef;
         totalChance = toSpawn.Sum(x => x.chance);
+        pm = GameObject.FindGameObjectWithTag("GameController").GetComponent<PlayerManager>();
     }
 
     private void Update()
@@ -58,6 +59,7 @@ public class EnemySpawn : MonoBehaviour
         }
         GameObject spawned = Instantiate(go, transform.position, Quaternion.identity);
         spawned.GetComponent<EnemyAI>().Humans = humans;
+        pm.AddEnemy(spawned.transform);
         spawnTimer = spawnTimerRef;
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(PlayerController))]
@@ -8,6 +7,7 @@ public class PlayerAI : MonoBehaviour
     private PlayerController pc;
     private Transform[] _humans;
     private NavMeshAgent agent;
+    private PlayerManager pm;
 
     public void Init(Transform[] humans)
     {
@@ -18,11 +18,13 @@ public class PlayerAI : MonoBehaviour
     {
         pc = GetComponent<PlayerController>();
         agent = GetComponent<NavMeshAgent>();
+        pm = GameObject.FindGameObjectWithTag("GameController").GetComponent<PlayerManager>();
     }
 
     private void Update()
     {
         SetDestination();
+        ShootEnemy();
     }
 
     private void SetDestination()
@@ -45,6 +47,17 @@ public class PlayerAI : MonoBehaviour
                 }
             }
             agent.SetDestination(dest.position);
+        }
+    }
+    private void ShootEnemy()
+    {
+        Transform t = AIUtilities.GetClosestTransformInSight(transform.position, pm.GetEnemies(), out _);
+        if (t != null)
+        {
+            Debug.Log("AZE");
+            var angle = Mathf.Atan2(t.position.z, t.position.x) * Mathf.Rad2Deg - 90f;
+            pc.SetRotation(Quaternion.Euler(0f, -angle, 0f));
+            pc.Shoot();
         }
     }
 }

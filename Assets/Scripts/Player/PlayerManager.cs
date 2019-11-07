@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class PlayerManager : MonoBehaviour
@@ -13,10 +14,15 @@ public class PlayerManager : MonoBehaviour
     private Material[] materials;
 
     private ControllerDetection controller;
-    private Rigidbody rb;
+
+    private List<Transform> enemies;
+    public void AddEnemy(Transform t) => enemies.Add(t);
+    public void DeleteEnemy(Transform t) => enemies.Remove(t);
+    public IReadOnlyCollection<Transform> GetEnemies() => enemies.AsReadOnly();
 
     private void Start()
     {
+        enemies = new List<Transform>();
         controller = GameObject.Find("IntroController").GetComponent<ControllerDetection>();
         var users = controller.GetUsers();
         GameObject.Find("RpcManager")?.GetComponent<RpcManager>().StartGame(users.Count);
@@ -40,7 +46,6 @@ public class PlayerManager : MonoBehaviour
             go.tag = "PlayerAI";
             go.name = "Player " + i + " - AI";
         }
-        rb = GetComponent<Rigidbody>();
     }
 
     private GameObject SpawnPlayer(int index)
