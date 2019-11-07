@@ -22,11 +22,29 @@ public class PlayerAI : MonoBehaviour
 
     private void Update()
     {
+        SetDestination();
+    }
+
+    private void SetDestination()
+    {
         float dist;
         Transform dest = AIUtilities.GetClosestTransform(transform.position, _humans, out dist);
-        if (dist < 3f)
+        if (dist < 2f)
+            agent.SetDestination(Vector3.MoveTowards(transform.position, dest.position, -1f));
+        else if (dist < 3f)
             agent.SetDestination(transform.position);
-        else
+        else if (dist > 3.5f)
+        {
+            RaycastHit hitInfo;
+            if (Physics.SphereCast(transform.position, .5f, dest.position, out hitInfo, float.MaxValue, ~(1 << 8)))
+            {
+                if (hitInfo.collider.CompareTag("PlayerAI"))
+                {
+                    if (hitInfo.distance < 3f)
+                        agent.SetDestination(transform.position);
+                }
+            }
             agent.SetDestination(dest.position);
+        }
     }
 }

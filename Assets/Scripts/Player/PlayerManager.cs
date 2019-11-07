@@ -27,6 +27,8 @@ public class PlayerManager : MonoBehaviour
             GameObject go = SpawnPlayer(i);
             go.AddComponent<PlayerHuman>().SetUser(controller.GetUsers()[i]);
             go.GetComponent<NavMeshAgent>().enabled = false;
+            go.tag = "PlayerHuman";
+            go.name = "Player " + i + " - Human";
             humans[i] = go.transform;
             i++;
         }
@@ -34,6 +36,9 @@ public class PlayerManager : MonoBehaviour
         {
             GameObject go = SpawnPlayer(i);
             go.AddComponent<PlayerAI>().Init(humans);
+            go.GetComponent<Rigidbody>().isKinematic = true;
+            go.tag = "PlayerAI";
+            go.name = "Player " + i + " - AI";
         }
         rb = GetComponent<Rigidbody>();
     }
