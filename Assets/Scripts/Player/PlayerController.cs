@@ -15,13 +15,13 @@ public class PlayerController : MonoBehaviour
     private Shake camShake; // To shake the camera
     private Gun gun; // Player weapon
 
-    private const float shakeForce = 1f; // Force of the screen shake;
+    private const float shakeForce = .1f; // Force of the screen shake;
     private const float shakeDuration = .1f;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        gun = Gun.handgun;
+        gun = Gun.smg;
         reloadTimer = 0f;
         camShake = Camera.main.GetComponent<Shake>();
     }

@@ -12,5 +12,6 @@
     private float _reloadTime; // In seconds
     private float _fireForce; // Velocity applied when bullet is spawn
 
-    public static Gun handgun = new Gun(1f, 50f);
+    public static Gun handgun = new Gun(reloadTime: 1f, fireForce: 50f);
+    public static Gun smg = new Gun(reloadTime: .1f, fireForce: 50f);
 }
