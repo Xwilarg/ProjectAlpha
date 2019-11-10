@@ -19,7 +19,7 @@ public static class AIUtilities
         return closest;
     }
 
-    public static Transform GetClosestTransformInSight(Vector3 me, IEnumerable<Transform> others, out float closestDist)
+    public static Transform GetClosestTransformInSight(Vector3 me, IEnumerable<Transform> others, out float closestDist, int layer)
     {
         Transform closest = null;
         closestDist = float.MaxValue;
@@ -29,7 +29,7 @@ public static class AIUtilities
             if (closest == null || dist < closestDist)
             {
                 RaycastHit hitInfo;
-                if (Physics.Raycast(me, t.position, out hitInfo) && hitInfo.collider.transform == t)
+                if (Physics.Raycast(me, new Vector3(t.position.x - me.x, 0f, t.position.z - me.z), out hitInfo, float.MaxValue, layer) && hitInfo.collider.transform == t)
                 {
                     closest = t;
                     closestDist = dist;

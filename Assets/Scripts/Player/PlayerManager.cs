@@ -52,6 +52,7 @@ public class PlayerManager : MonoBehaviour
     {
         GameObject go = Instantiate(playerPrefab, spawns[index].transform.position, Quaternion.identity);
         go.GetComponent<Renderer>().material = materials[index];
+        go.layer = 11 + index; // First "Player" layer
         return go;
     }
 }

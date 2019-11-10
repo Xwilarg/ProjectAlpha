@@ -51,10 +51,9 @@ public class PlayerAI : MonoBehaviour
     }
     private void ShootEnemy()
     {
-        Transform t = AIUtilities.GetClosestTransformInSight(transform.position, pm.GetEnemies(), out _);
+        Transform t = AIUtilities.GetClosestTransformInSight(transform.position, pm.GetEnemies(), out _, ~(1 << gameObject.layer));
         if (t != null)
         {
-            Debug.Log("AZE");
             var angle = Mathf.Atan2(t.position.z, t.position.x) * Mathf.Rad2Deg - 90f;
             pc.SetRotation(Quaternion.Euler(0f, -angle, 0f));
             pc.Shoot();
