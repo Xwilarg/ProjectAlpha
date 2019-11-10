@@ -55,6 +55,8 @@ public class User
         _controller = controller;
         string name = _controller == -1 ? "Keyboard" : Input.GetJoystickNames()[_controller];
         controllerText.text = name;
+        lastRotX = 0f;
+        lastRotY = 0f;
     }
 
     public bool GetKey(string key)
@@ -67,6 +69,16 @@ public class User
         {
             x = Input.GetAxis("Joy" + _controller + "X2");
             y = Input.GetAxis("Joy" + _controller + "Y2");
+            if (x == 0 && y == 0)
+            {
+                x = lastRotX;
+                y = lastRotY;
+            }
+            else
+            {
+                lastRotX = x;
+                lastRotY = y;
+            }
         }
         else
         {
@@ -105,4 +117,5 @@ public class User
         => _controller;
 
     private int _controller;
+    private float lastRotX, lastRotY;
 }
