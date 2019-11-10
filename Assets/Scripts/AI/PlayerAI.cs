@@ -38,7 +38,7 @@ public class PlayerAI : MonoBehaviour
         else if (dist > 3.5f)
         {
             RaycastHit hitInfo;
-            if (Physics.SphereCast(transform.position, .5f, dest.position, out hitInfo, float.MaxValue, ~(1 << 8)))
+            if (Physics.SphereCast(transform.position, .5f, new Vector3(transform.position.x - dest.position.x, 0f, transform.position.z - dest.position.z), out hitInfo, float.MaxValue, ~(1 << 8)))
             {
                 if (hitInfo.collider.CompareTag("PlayerAI"))
                 {
@@ -54,7 +54,7 @@ public class PlayerAI : MonoBehaviour
         Transform t = AIUtilities.GetClosestTransformInSight(transform.position, pm.GetEnemies(), out _, ~(1 << gameObject.layer));
         if (t != null)
         {
-            var angle = Mathf.Atan2(t.position.z, t.position.x) * Mathf.Rad2Deg - 90f;
+            var angle = Mathf.Atan2(t.position.z - transform.position.z, t.position.x - transform.position.x) * Mathf.Rad2Deg - 90f;
             pc.SetRotation(Quaternion.Euler(0f, -angle, 0f));
             pc.Shoot();
         }
