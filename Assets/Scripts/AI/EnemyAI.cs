@@ -12,7 +12,8 @@ public class EnemyAI : MonoBehaviour
 
     public enum AIType
     {
-        Rush
+        Rush,
+        Shield
     }
 
     private void Start()
@@ -21,6 +22,10 @@ public class EnemyAI : MonoBehaviour
         {
             case AIType.Rush:
                 gameObject.AddComponent<RushAI>();
+                break;
+
+            case AIType.Shield:
+                gameObject.AddComponent<ShieldAI>();
                 break;
 
             default:

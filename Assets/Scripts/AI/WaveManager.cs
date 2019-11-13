@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EnemySpawn : MonoBehaviour
+public class WaveManager : MonoBehaviour
 {
     [SerializeField]
     [Tooltip("Time before 2 spawn")]
     private float spawnTimerRef;
+
+    [SerializeField]
+    private Transform[] spawnPoints;
 
     [SerializeField]
     private Spawnable[] toSpawn;
@@ -40,10 +43,11 @@ public class EnemySpawn : MonoBehaviour
     {
         spawnTimer -= Time.deltaTime;
         if (spawnTimer < 0f)
-            Spawn();
+            foreach (Transform t in spawnPoints)
+                Spawn(t.position);
     }
 
-    private void Spawn()
+    private void Spawn(Vector3 pos)
     {
         int nb = UnityEngine.Random.Range(0, totalChance);
         GameObject go = null;
@@ -57,7 +61,7 @@ public class EnemySpawn : MonoBehaviour
                 break;
             }
         }
-        GameObject spawned = Instantiate(go, transform.position, Quaternion.identity);
+        GameObject spawned = Instantiate(go, pos, Quaternion.identity);
         spawned.GetComponent<EnemyAI>().Humans = humans;
         pm.AddEnemy(spawned.transform);
         spawnTimer = spawnTimerRef;
