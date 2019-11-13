@@ -50,6 +50,15 @@ public class User
         private int[] _mouseButton;
     }
 
+    public enum GameplayClass
+    {
+        NotSelected = -1,
+        Rifleman,
+        Grenadier,
+        Brawler,
+        Conjuror
+    }
+
     public User(int controller, Text controllerText)
     {
         _controller = controller;
@@ -57,6 +66,7 @@ public class User
         controllerText.text = name;
         lastRotX = 0f;
         lastRotY = 0f;
+        myClass = GameplayClass.NotSelected;
     }
 
     public bool GetKey(string key)
@@ -116,6 +126,13 @@ public class User
     public int GetControllerId()
         => _controller;
 
+    public void SetGameplayClass(GameplayClass value)
+        => myClass = value;
+
+    public GameplayClass GetGameplayClass()
+        => myClass;
+
     private int _controller;
     private float lastRotX, lastRotY;
+    private GameplayClass myClass;
 }

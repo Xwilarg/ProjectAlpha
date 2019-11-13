@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ControllerManager : MonoBehaviour
@@ -16,4 +17,7 @@ public class ControllerManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         users = new List<User>();
     }
+
+    public bool AreUsersReady()
+        => users.Count != 0 && !users.Any(x => x.GetGameplayClass() == User.GameplayClass.NotSelected);
 }
