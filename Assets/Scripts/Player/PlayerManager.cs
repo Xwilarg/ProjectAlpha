@@ -13,7 +13,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private Material[] materials;
 
-    private ControllerDetection controller;
+    private ControllerManager controller;
 
     private List<Transform> enemies;
     public void AddEnemy(Transform t) => enemies.Add(t);
@@ -23,7 +23,7 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         enemies = new List<Transform>();
-        controller = GameObject.Find("IntroController").GetComponent<ControllerDetection>();
+        controller = GameObject.Find("IntroController").GetComponent<ControllerManager>();
         var users = controller.GetUsers();
         GameObject.Find("RpcManager")?.GetComponent<RpcManager>().StartGame(users.Count);
         Transform[] humans = new Transform[users.Count];
