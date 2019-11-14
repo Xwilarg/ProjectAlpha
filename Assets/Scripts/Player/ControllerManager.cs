@@ -20,4 +20,7 @@ public class ControllerManager : MonoBehaviour
 
     public bool AreUsersReady()
         => users.Count != 0 && !users.Any(x => x.GetGameplayClass() == User.GameplayClass.NotSelected);
+
+    public bool IsClassAvailable(User.GameplayClass value)
+        => !users.Any(x => x.GetGameplayClass() == value);
 }

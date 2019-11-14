@@ -20,6 +20,7 @@ public class ControllerDetection : MonoBehaviour
         public Text title;
         public Text description;
         public GameObject buttons;
+        public Button okButton;
     }
 
     private User.GameplayClass[] selectedClass;
@@ -43,10 +44,12 @@ public class ControllerDetection : MonoBehaviour
             {
                 if (!manager.GetUsers().Any(x => x.GetControllerId() == -1))
                 {
-                    var value = controllerMenu[manager.GetUsers().Count];
+                    int index = manager.GetUsers().Count;
+                    var value = controllerMenu[index];
                     manager.AddUser(new User(-1, value.title));
                     value.buttons.SetActive(true);
                     value.description.text = ((User.GameplayClass)0).ToString();
+                    CheckClassAvailability(index);
                 }
             }
             else
@@ -57,15 +60,32 @@ public class ControllerDetection : MonoBehaviour
                     {
                         if (!manager.GetUsers().Any(x => x.GetControllerId() == i))
                         {
-                            var value = controllerMenu[manager.GetUsers().Count];
+                            int index = manager.GetUsers().Count;
+                            var value = controllerMenu[index];
                             manager.AddUser(new User(i, value.title));
                             value.buttons.SetActive(true);
                             value.description.text = ((User.GameplayClass)0).ToString();
+                            CheckClassAvailability(index);
                         }
                         break;
                     }
                 }
             }
+        }
+    }
+
+    private void CheckClassAvailability(int index)
+    {
+        var value = controllerMenu[index];
+        if (manager.IsClassAvailable(selectedClass[index]))
+        {
+            value.description.color = Color.black;
+            value.okButton.interactable = true;
+        }
+        else
+        {
+            value.description.color = Color.grey;
+            value.okButton.interactable = false;
         }
     }
 
@@ -77,6 +97,7 @@ public class ControllerDetection : MonoBehaviour
             value = 0;
         selectedClass[index] = value;
         controllerMenu[index].description.text = value.ToString();
+        CheckClassAvailability(index);
     }
 
     public void ValidateClass(int index)
@@ -85,5 +106,13 @@ public class ControllerDetection : MonoBehaviour
         controllerMenu[index].buttons.SetActive(false);
         if (manager.AreUsersReady())
             startButton.interactable = true;
+        else
+        {
+            for (int i = 0; i < manager.GetUsers().Count; i++)
+            {
+                if (manager.GetUsers()[i].GetGameplayClass() == User.GameplayClass.NotSelected)
+                    CheckClassAvailability(index);
+            }
+        }
     }
 }
