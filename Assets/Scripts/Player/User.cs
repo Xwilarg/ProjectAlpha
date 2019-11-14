@@ -141,6 +141,12 @@ public class User
     public GameplayClass GetGameplayClass()
         => myClass;
 
+    public void SetWeapon(AWeapon value)
+        => weapon = value;
+
+    public AWeapon GetWeapon()
+        => weapon;
+
     /// -2: None (for bots)
     /// -1: Keyboard
     /// > -1: Controller id
@@ -148,4 +154,5 @@ public class User
     private float lastRotX, lastRotY;
     private GameplayClass myClass;
     private string controllerName;
+    private AWeapon weapon;
 }

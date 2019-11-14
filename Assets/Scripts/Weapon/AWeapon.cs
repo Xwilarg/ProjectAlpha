@@ -17,8 +17,11 @@ public abstract class AWeapon : MonoBehaviour
         _reloadTime -= Time.deltaTime;
     }
 
-    protected bool CanShoot()
+    public bool CanShoot()
         => _reloadTime < 0f;
+
+    public float GetRemainingReloadTime()
+        => _reloadTime;
 
     protected void Reload()
         => _reloadTime = _refReloadTime;

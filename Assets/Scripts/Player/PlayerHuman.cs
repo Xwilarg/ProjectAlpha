@@ -6,12 +6,10 @@ public class PlayerHuman : MonoBehaviour
     private PlayerController pc;
     private User user; // For inputs
 
-    public void SetUser(User value)
-        => user = value;
-
     private void Start()
     {
         pc = GetComponent<PlayerController>();
+        user = pc.GetUser();
     }
 
     private void Update()

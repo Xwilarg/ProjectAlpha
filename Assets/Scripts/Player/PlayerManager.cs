@@ -42,8 +42,8 @@ public class PlayerManager : MonoBehaviour
         foreach (var user in users)
         {
             GameObject go = SpawnPlayer(i);
-            go.AddComponent<PlayerHuman>().SetUser(controller.GetUsers()[i]);
             go.GetComponent<NavMeshAgent>().enabled = false;
+            go.AddComponent<PlayerHuman>();
             go.tag = "PlayerHuman";
             go.name = "Player " + i + " - Human";
             humans[i] = go.transform;
@@ -61,18 +61,18 @@ public class PlayerManager : MonoBehaviour
         // Instantiate all AIs
         for (; i < 4; i++)
         {
-            GameObject go = SpawnPlayer(i);
-            go.AddComponent<PlayerAI>().Init(humans);
-            go.GetComponent<Rigidbody>().isKinematic = true;
-            go.tag = "PlayerAI";
-            go.name = "Player " + i + " - AI";
-
             // Take a random class for the AI
             var aiUser = new User(-2, null);
             var randomClass = UnityEngine.Random.Range(0, remaningClasses.Count);
             aiUser.SetGameplayClass(remaningClasses[randomClass]);
             users.Add(aiUser);
             remaningClasses.RemoveAt(randomClass);
+
+            GameObject go = SpawnPlayer(i);
+            go.AddComponent<PlayerAI>().Init(humans);
+            go.GetComponent<Rigidbody>().isKinematic = true;
+            go.tag = "PlayerAI";
+            go.name = "Player " + i + " - AI";
         }
     }
 
@@ -84,6 +84,7 @@ public class PlayerManager : MonoBehaviour
         {
             sb.AppendLine("<b>Player " + i + ": " + u.GetControllerName() + "</b>");
             sb.AppendLine("Character: " + u.GetGameplayClass().ToString());
+            sb.AppendLine("Main Fire: " + (u.GetWeapon().CanShoot() ? "Ready" : u.GetWeapon().GetRemainingReloadTime() + "s"));
             sb.AppendLine();
             i++;
         }
@@ -94,6 +95,7 @@ public class PlayerManager : MonoBehaviour
     {
         GameObject go = Instantiate(playerPrefab, spawns[index].transform.position, Quaternion.identity);
         go.GetComponent<Renderer>().material = materials[index];
+        go.GetComponent<PlayerController>().SetUser(users[index]);
         go.layer = 11 + index; // First "Player" layer
         return go;
     }
