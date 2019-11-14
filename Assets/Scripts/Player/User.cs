@@ -68,8 +68,10 @@ public class User
         if (controller != -2)
         {
             string name = _controller == -1 ? "Keyboard" : Input.GetJoystickNames()[_controller];
+            controllerName = name;
             controllerText.text = name;
         }
+        controllerName = "AI";
     }
 
     public bool GetKey(string key)
@@ -126,6 +128,9 @@ public class User
         return new Vector3(x, 0f, y);
     }
 
+    public string GetControllerName()
+        => controllerName;
+
     public int GetControllerId()
         => _controller;
 
@@ -141,4 +146,5 @@ public class User
     private int _controller;
     private float lastRotX, lastRotY;
     private GameplayClass myClass;
+    private string controllerName;
 }

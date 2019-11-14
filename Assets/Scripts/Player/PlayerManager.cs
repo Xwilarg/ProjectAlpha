@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -15,6 +17,9 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private Material[] materials;
 
+    [SerializeField]
+    private Text summaryText;
+
     private ControllerManager controller;
 
     private List<Transform> enemies;
@@ -22,11 +27,13 @@ public class PlayerManager : MonoBehaviour
     public void DeleteEnemy(Transform t) => enemies.Remove(t);
     public IReadOnlyCollection<Transform> GetEnemies() => enemies.AsReadOnly();
 
+    private List<User> users;
+
     private void Start()
     {
         enemies = new List<Transform>();
         controller = GameObject.Find("IntroController").GetComponent<ControllerManager>();
-        var users = controller.GetUsers();
+        users = controller.GetUsers();
         GameObject.Find("RpcManager")?.GetComponent<RpcManager>().StartGame(users.Count);
         Transform[] humans = new Transform[users.Count];
         int i = 0;
@@ -67,6 +74,20 @@ public class PlayerManager : MonoBehaviour
             users.Add(aiUser);
             remaningClasses.RemoveAt(randomClass);
         }
+    }
+
+    private void Update()
+    {
+        int i = 0;
+        StringBuilder sb = new StringBuilder();
+        foreach (User u in users)
+        {
+            sb.AppendLine("<b>Player " + i + ": " + u.GetControllerName() + "</b>");
+            sb.AppendLine("Character: " + u.GetGameplayClass().ToString());
+            sb.AppendLine();
+            i++;
+        }
+        summaryText.text = sb.ToString();
     }
 
     private GameObject SpawnPlayer(int index)
