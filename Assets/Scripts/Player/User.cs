@@ -71,7 +71,8 @@ public class User
             controllerName = name;
             controllerText.text = name;
         }
-        controllerName = "AI";
+        else
+            controllerName = "AI";
     }
 
     public bool GetKey(string key)
