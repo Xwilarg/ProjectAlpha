@@ -62,11 +62,14 @@ public class User
     public User(int controller, Text controllerText)
     {
         _controller = controller;
-        string name = _controller == -1 ? "Keyboard" : Input.GetJoystickNames()[_controller];
-        controllerText.text = name;
         lastRotX = 0f;
         lastRotY = 0f;
         myClass = GameplayClass.NotSelected;
+        if (controller != -2)
+        {
+            string name = _controller == -1 ? "Keyboard" : Input.GetJoystickNames()[_controller];
+            controllerText.text = name;
+        }
     }
 
     public bool GetKey(string key)
@@ -132,6 +135,9 @@ public class User
     public GameplayClass GetGameplayClass()
         => myClass;
 
+    /// -2: None (for bots)
+    /// -1: Keyboard
+    /// > -1: Controller id
     private int _controller;
     private float lastRotX, lastRotY;
     private GameplayClass myClass;

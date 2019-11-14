@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -28,6 +30,8 @@ public class PlayerManager : MonoBehaviour
         GameObject.Find("RpcManager")?.GetComponent<RpcManager>().StartGame(users.Count);
         Transform[] humans = new Transform[users.Count];
         int i = 0;
+
+        // Instantiate all humans
         foreach (var user in users)
         {
             GameObject go = SpawnPlayer(i);
@@ -38,6 +42,16 @@ public class PlayerManager : MonoBehaviour
             humans[i] = go.transform;
             i++;
         }
+
+        // Get all classes that aren't choosed yet
+        List<User.GameplayClass> remaningClasses = new List<User.GameplayClass>();
+        for (int y = 0; y <= (int)Enum.GetValues(typeof(User.GameplayClass)).Cast<User.GameplayClass>().Max(); y++)
+        {
+            if (controller.IsClassAvailable((User.GameplayClass)y))
+                remaningClasses.Add((User.GameplayClass)y);
+        }
+
+        // Instantiate all AIs
         for (; i < 4; i++)
         {
             GameObject go = SpawnPlayer(i);
@@ -45,6 +59,13 @@ public class PlayerManager : MonoBehaviour
             go.GetComponent<Rigidbody>().isKinematic = true;
             go.tag = "PlayerAI";
             go.name = "Player " + i + " - AI";
+
+            // Take a random class for the AI
+            var aiUser = new User(-2, null);
+            var randomClass = UnityEngine.Random.Range(0, remaningClasses.Count);
+            aiUser.SetGameplayClass(remaningClasses[randomClass]);
+            users.Add(aiUser);
+            remaningClasses.RemoveAt(randomClass);
         }
     }
 
