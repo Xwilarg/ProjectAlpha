@@ -15,15 +15,6 @@ public sealed class SMG : AWeapon
         camShake = Camera.main.GetComponent<Shake>();
     }
 
-    public override void Init(GameObject bulletPrefab, Transform gunEnd)
-    {
-        _bulletPrefab = bulletPrefab;
-        _gunEnd = gunEnd;
-    }
-
-    protected override float GetReloadTime()
-        => _reloadTime;
-
     public override void Fire()
     {
         if (!CanShoot())
@@ -35,6 +26,12 @@ public sealed class SMG : AWeapon
         Reload();
     }
 
-    private SMG() : base()
-    { }
+    protected override float GetReloadTime()
+        => _reloadTime;
+
+    public override void Init(GameObject bulletPrefab, Transform gunEnd)
+    {
+        _bulletPrefab = bulletPrefab;
+        _gunEnd = gunEnd;
+    }
 }

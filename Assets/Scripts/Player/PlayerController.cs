@@ -4,14 +4,13 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
     private WeaponType weaponType;
 
     [SerializeField]
     private Transform gunEnd;
 
     [SerializeField]
-    private GameObject bulletPrefab;
+    private GameObject bulletPrefab, grenadePrefab;
 
     private Rigidbody rb;
     private float speed = 10f; // Player speed
@@ -19,7 +18,24 @@ public class PlayerController : MonoBehaviour
     private User user;
 
     public void SetUser(User value)
-        => user = value;
+    {
+        user = value;
+        switch (user.GetGameplayClass())
+        {
+            case User.GameplayClass.Rifleman:
+            case User.GameplayClass.Conjuror:
+            case User.GameplayClass.Brawler:
+                weaponType = WeaponType.SMG;
+                break;
+
+            case User.GameplayClass.Grenadier:
+                weaponType = WeaponType.GrenadeLauncher;
+                break;
+
+            default:
+                throw new ArgumentException("Invalid gameplay class type " + user.GetGameplayClass().ToString());
+        }
+    }
 
     public User GetUser()
         => user;
@@ -31,12 +47,17 @@ public class PlayerController : MonoBehaviour
         {
             case WeaponType.SMG:
                 weapon = gameObject.AddComponent<SMG>();
+                weapon.Init(bulletPrefab, gunEnd);
+                break;
+
+            case WeaponType.GrenadeLauncher:
+                weapon = gameObject.AddComponent<GrenadeLauncher>();
+                weapon.Init(grenadePrefab, gunEnd);
                 break;
 
             default:
                 throw new ArgumentException("Invalid weapon type " + weaponType.ToString());
         }
-        weapon.Init(bulletPrefab, gunEnd);
         user.SetWeapon(weapon);
     }
 
@@ -57,6 +78,7 @@ public class PlayerController : MonoBehaviour
 
     public enum WeaponType
     {
-        SMG
+        SMG,
+        GrenadeLauncher
     }
 }

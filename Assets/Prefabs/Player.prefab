@@ -255,6 +255,8 @@ MonoBehaviour:
   gunEnd: {fileID: 4634174174531178412}
   bulletPrefab: {fileID: 7215980308398970140, guid: 6226f9fc63e6b83408c113b2e1abb022,
     type: 3}
+  grenadePrefab: {fileID: 7215980308398970140, guid: 6052f6d994188ef488628fbcdad4f6d0,
+    type: 3}
 --- !u!195 &381259759081573855
 NavMeshAgent:
   m_ObjectHideFlags: 0
