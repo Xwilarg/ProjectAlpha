@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
             default:
                 throw new ArgumentException("Invalid gameplay class type " + user.GetGameplayClass().ToString());
         }
+        GetComponent<PlayerAI>()?.SetGameplayClass(user.GetGameplayClass());
     }
 
     public User GetUser()

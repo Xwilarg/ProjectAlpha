@@ -8,6 +8,10 @@ public class PlayerAI : MonoBehaviour
     private Transform[] _humans;
     private NavMeshAgent agent;
     private PlayerManager pm;
+    private User.GameplayClass gameplayClass;
+
+    public void SetGameplayClass(User.GameplayClass value)
+        => gameplayClass = value;
 
     public void Init(Transform[] humans)
     {
@@ -51,9 +55,17 @@ public class PlayerAI : MonoBehaviour
     }
     private void ShootEnemy()
     {
+        int finalLayer;
+        if (gameplayClass == User.GameplayClass.Grenadier)
+            finalLayer = ~(1 << gameObject.layer | 1 << 9); // Grenadier can shoot over shields
+        else
+            finalLayer = ~(1 << gameObject.layer);
         Transform t = AIUtilities.GetClosestTransformInSight(transform.position, pm.GetEnemies(), out _, ~(1 << gameObject.layer));
         if (t != null)
         {
+            float distance = Vector3.Distance(transform.position, t.position);
+            if (gameplayClass == User.GameplayClass.Grenadier && distance > 10f) // Grenadiers can't shoot too far
+                return;
             var angle = Mathf.Atan2(t.position.z - transform.position.z, t.position.x - transform.position.x) * Mathf.Rad2Deg - 90f;
             pc.SetRotation(Quaternion.Euler(0f, -angle, 0f));
             pc.Shoot();
