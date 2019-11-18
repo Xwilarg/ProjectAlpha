@@ -6,14 +6,6 @@ public class GrenadeLauncher : AWeapon
     private float _fireForce = 7f;
     private GameObject _bulletPrefab;
     private Transform _gunEnd; // From where the bullet is shoot
-    private Shake camShake; // To shake the camera
-    private const float shakeForce = .5f; // Force of the screen shake;
-    private const float shakeDuration = .1f;
-
-    private void Start()
-    {
-        camShake = Camera.main.GetComponent<Shake>();
-    }
 
     public override void Fire()
     {
@@ -22,7 +14,6 @@ public class GrenadeLauncher : AWeapon
         GameObject go = Instantiate(_bulletPrefab, _gunEnd.position, Quaternion.identity);
         go.GetComponent<Rigidbody>().AddForce((transform.forward + transform.up) * _fireForce, ForceMode.Impulse);
         Destroy(go, 5f);
-        camShake.ShakeMe(shakeForce, shakeDuration);
         Reload();
     }
 
