@@ -521,11 +521,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 669471885}
     m_Modifications:
-    - target: {fileID: 7957712157781853772, guid: 3b419d7bb08393e44ba91a9364ebf9f2,
-        type: 3}
-      propertyPath: m_Name
-      value: West Entrance
-      objectReference: {fileID: 0}
     - target: {fileID: 7957712157781853773, guid: 3b419d7bb08393e44ba91a9364ebf9f2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -580,6 +575,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957712157781853772, guid: 3b419d7bb08393e44ba91a9364ebf9f2,
+        type: 3}
+      propertyPath: m_Name
+      value: West Entrance
       objectReference: {fileID: 0}
     - target: {fileID: 7957712156913909421, guid: 3b419d7bb08393e44ba91a9364ebf9f2,
         type: 3}
@@ -1165,11 +1165,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 669471885}
     m_Modifications:
-    - target: {fileID: 7957712157781853772, guid: 3b419d7bb08393e44ba91a9364ebf9f2,
-        type: 3}
-      propertyPath: m_Name
-      value: East Entrance
-      objectReference: {fileID: 0}
     - target: {fileID: 7957712157781853773, guid: 3b419d7bb08393e44ba91a9364ebf9f2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1224,6 +1219,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7957712157781853772, guid: 3b419d7bb08393e44ba91a9364ebf9f2,
+        type: 3}
+      propertyPath: m_Name
+      value: East Entrance
       objectReference: {fileID: 0}
     - target: {fileID: 7957712156913909421, guid: 3b419d7bb08393e44ba91a9364ebf9f2,
         type: 3}
