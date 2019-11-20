@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WaveManager : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class WaveManager : MonoBehaviour
 
     [SerializeField]
     private Transform[] leftSpawnPoints, rightSpawnPoints;
+
+    [SerializeField]
+    private Text waveText;
+    private Fade waveFade;
 
     private float spawnTimer;
     private PlayerManager pm;
@@ -26,6 +31,7 @@ public class WaveManager : MonoBehaviour
         spawnTimer = 2f;
         waveNb = 0;
         waves = GetComponent<Waves>();
+        waveFade = waveText.GetComponent<Fade>();
         pm = GameObject.FindGameObjectWithTag("GameController").GetComponent<PlayerManager>();
     }
 
@@ -43,6 +49,8 @@ public class WaveManager : MonoBehaviour
     {
         Wave currWave = waves.GetWaves()[waveNb];
         waveNb++;
+        waveText.text = "Wave " + waveNb;
+        waveFade.Restore();
         List<GameObject> leftWave = new List<GameObject>(currWave.leftSpawn);
         List<GameObject> rightWave = new List<GameObject>(currWave.rightSpawn);
         while (leftWave.Count > 0 || rightWave.Count > 0)
