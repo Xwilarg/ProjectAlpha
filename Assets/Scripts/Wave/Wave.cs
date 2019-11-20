@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections.ObjectModel;
+using UnityEngine;
 
 public struct Wave
 {
-    public GameObject[] leftSpawn;
-    public GameObject[] rightSpawn;
+    public ReadOnlyCollection<GameObject> leftSpawn;
+    public ReadOnlyCollection<GameObject> rightSpawn;
 }

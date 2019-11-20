@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 
@@ -12,21 +13,24 @@ public class Waves : MonoBehaviour
 
     private Wave[] waves;
 
+    public Wave[] GetWaves()
+        => waves;
+
     private void Start()
     {
         waves = new Wave[]
         {
             new Wave() {
-                leftSpawn = CombineArray(Repeat(debugEnemy, 10), Repeat(debugShield, 3)),
-                rightSpawn = CombineArray(Repeat(debugEnemy, 10), Repeat(debugShield, 3))
+                leftSpawn = CombineLists(Repeat(debugShield, 3), Repeat(debugEnemy, 10)),
+                rightSpawn = CombineLists(Repeat(debugShield, 3), Repeat(debugEnemy, 10))
             },
             new Wave() {
-                leftSpawn = CombineArray(Repeat(debugEnemy, 20), Repeat(debugShield, 5)),
-                rightSpawn = CombineArray(Repeat(debugEnemy, 20), Repeat(debugShield, 5))
+                leftSpawn = CombineLists(Repeat(debugShield, 5), Repeat(debugEnemy, 20)),
+                rightSpawn = CombineLists(Repeat(debugShield, 5), Repeat(debugEnemy, 20))
             },
             new Wave() {
-                leftSpawn = CombineArray(Repeat(debugEnemy, 30), Repeat(debugShield, 10)),
-                rightSpawn = CombineArray(Repeat(debugEnemy, 30), Repeat(debugShield, 10))
+                leftSpawn = CombineLists(Repeat(debugShield, 10), Repeat(debugEnemy, 30)),
+                rightSpawn = CombineLists(Repeat(debugShield, 10), Repeat(debugEnemy, 30))
             }
         };
     }
@@ -34,11 +38,11 @@ public class Waves : MonoBehaviour
     private List<GameObject> Repeat(GameObject go, int nb)
         => Enumerable.Repeat(go, nb).ToList();
 
-    private GameObject[] CombineArray(params List<GameObject>[] arrays)
+    private ReadOnlyCollection<GameObject> CombineLists(params List<GameObject>[] arrays)
     {
         List<GameObject> gos = new List<GameObject>();
         foreach (List<GameObject> arr in arrays)
             gos.AddRange(arr);
-        return gos.ToArray();
+        return gos.AsReadOnly();
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,36 +6,26 @@ using UnityEngine;
 public class WaveManager : MonoBehaviour
 {
     [SerializeField]
-    [Tooltip("Time before 2 spawn")]
+    [Tooltip("Time before 2 waves")]
     private float spawnTimerRef;
 
     [SerializeField]
-    private Transform[] spawnPoints;
-
-    [SerializeField]
-    private Spawnable[] toSpawn;
+    private Transform[] leftSpawnPoints, rightSpawnPoints;
 
     private float spawnTimer;
-    private int totalChance;
     private PlayerManager pm;
     private Transform[] humans;
-
-    [Serializable]
-    private struct Spawnable
-    {
-        [Tooltip("Chance to be spawned")]
-        public int chance;
-        [Tooltip("GameObject to be spawned")]
-        public GameObject toSpawn;
-    }
+    private Waves waves;
+    private int waveNb;
 
     private void Start()
     {
         List<Transform> t = GameObject.FindGameObjectsWithTag("PlayerHuman").Select(x => x.transform).ToList();
         t.AddRange(GameObject.FindGameObjectsWithTag("PlayerAI").Select(x => x.transform));
         humans = t.ToArray();
-        spawnTimer = spawnTimerRef;
-        totalChance = toSpawn.Sum(x => x.chance);
+        spawnTimer = 2f;
+        waveNb = 0;
+        waves = GetComponent<Waves>();
         pm = GameObject.FindGameObjectWithTag("GameController").GetComponent<PlayerManager>();
     }
 
@@ -43,32 +33,42 @@ public class WaveManager : MonoBehaviour
     {
         spawnTimer -= Time.deltaTime;
         if (spawnTimer < 0f)
-            foreach (Transform t in spawnPoints)
-                Spawn(t.position);
+        {
+            StartCoroutine("SpawnWave");
+            spawnTimer = spawnTimerRef;
+        }
     }
 
-    private void Spawn(Vector3 pos)
+    private IEnumerator SpawnWave()
     {
-        int nb = UnityEngine.Random.Range(0, totalChance);
-        GameObject go = null;
-        for (int i = 0; i < toSpawn.Length; i++)
+        Wave currWave = waves.GetWaves()[waveNb];
+        waveNb++;
+        List<GameObject> leftWave = new List<GameObject>(currWave.leftSpawn);
+        List<GameObject> rightWave = new List<GameObject>(currWave.rightSpawn);
+        while (leftWave.Count > 0 || rightWave.Count > 0)
         {
-            var elem = toSpawn[i];
-            nb -= elem.chance;
-            if (nb <= 0)
+            foreach (var spawn in leftSpawnPoints)
             {
-                go = elem.toSpawn;
-                break;
+                if (leftWave.Count == 0)
+                    break;
+                SpawnEnemy(leftWave[0], spawn.position);
+                leftWave.RemoveAt(0);
             }
+            foreach (var spawn in rightSpawnPoints)
+            {
+                if (rightWave.Count == 0)
+                    break;
+                SpawnEnemy(rightWave[0], spawn.position);
+                rightWave.RemoveAt(0);
+            }
+            yield return new WaitForSeconds(.5f);
         }
+    }
+
+    private void SpawnEnemy(GameObject go, Vector3 pos)
+    {
         GameObject spawned = Instantiate(go, pos, Quaternion.identity);
         spawned.GetComponent<EnemyAI>().Humans = humans;
         pm.AddEnemy(spawned.transform);
-        spawnTimer = spawnTimerRef;
     }
-
-    /*private IEnumerator SpawnWave()
-    {
-        yield return new 
-    }*/
 }

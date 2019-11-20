@@ -988,6 +988,7 @@ GameObject:
   - component: {fileID: 1927309320}
   - component: {fileID: 1927309321}
   - component: {fileID: 1927309322}
+  - component: {fileID: 1927309323}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -1046,19 +1047,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0725a8f1a14313f4cbba3bcd8b650ad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnTimerRef: 3
-  spawnPoints:
-  - {fileID: 7957712158418304042}
-  - {fileID: 7957712158418304041}
+  spawnTimerRef: 20
+  leftSpawnPoints:
   - {fileID: 1659977344}
   - {fileID: 1659977343}
-  toSpawn:
-  - chance: 80
-    toSpawn: {fileID: 6507743120386118232, guid: e7e0e374c98d1994089f67388d87b315,
-      type: 3}
-  - chance: 20
-    toSpawn: {fileID: 5000096642651086838, guid: 6a02d47ca70e5374bb0e424770a6ca9d,
-      type: 3}
+  rightSpawnPoints:
+  - {fileID: 7957712158418304042}
+  - {fileID: 7957712158418304041}
+--- !u!114 &1927309323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927309319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c22c5e2f0d89464bb1e4404b9b1bc62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugEnemy: {fileID: 6507743120386118232, guid: e7e0e374c98d1994089f67388d87b315,
+    type: 3}
+  debugShield: {fileID: 5000096642651086838, guid: 6a02d47ca70e5374bb0e424770a6ca9d,
+    type: 3}
 --- !u!1 &2102869348
 GameObject:
   m_ObjectHideFlags: 0
