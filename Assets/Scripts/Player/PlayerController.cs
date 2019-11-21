@@ -23,9 +23,12 @@ public class PlayerController : MonoBehaviour
         switch (user.GetGameplayClass())
         {
             case User.GameplayClass.Rifleman:
+                weaponType = WeaponType.SMG;
+                break;
+
             case User.GameplayClass.Conjuror:
             case User.GameplayClass.Brawler:
-                weaponType = WeaponType.SMG;
+                weaponType = WeaponType.Handgun;
                 break;
 
             case User.GameplayClass.Grenadier:
@@ -48,6 +51,11 @@ public class PlayerController : MonoBehaviour
         {
             case WeaponType.SMG:
                 weapon = gameObject.AddComponent<SMG>();
+                weapon.Init(bulletPrefab, gunEnd);
+                break;
+
+            case WeaponType.Handgun:
+                weapon = gameObject.AddComponent<Handgun>();
                 weapon.Init(bulletPrefab, gunEnd);
                 break;
 
@@ -80,6 +88,7 @@ public class PlayerController : MonoBehaviour
     public enum WeaponType
     {
         SMG,
-        GrenadeLauncher
+        GrenadeLauncher,
+        Handgun
     }
 }

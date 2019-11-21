@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public sealed class SMG : AWeapon
+public sealed class Handgun : AWeapon
 {
-    private float _reloadTime = .1f;
+    private float _reloadTime = 1f;
     private float _fireForce = 50f;
     private GameObject _bulletPrefab;
     private Transform _gunEnd; // From where the bullet is shoot
