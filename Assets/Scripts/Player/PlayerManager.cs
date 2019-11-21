@@ -84,6 +84,7 @@ public class PlayerManager : MonoBehaviour
         {
             sb.AppendLine("<b>Player " + i + ": " + u.GetControllerName() + "</b>");
             sb.AppendLine("Character: " + u.GetGameplayClass().ToString());
+            sb.AppendLine("HP: " + u.GetCharacter().GetHP());
             sb.AppendLine("Main Fire: " + (u.GetWeapon().CanShoot() ? "Ready" : u.GetWeapon().GetRemainingReloadTime() + "s"));
             sb.AppendLine();
             i++;

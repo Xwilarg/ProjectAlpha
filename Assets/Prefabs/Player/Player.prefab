@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 8373376609506592852}
   - component: {fileID: -6489944817489823323}
   - component: {fileID: 381259759081573855}
+  - component: {fileID: 1181768995272478685}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -251,7 +252,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64cc92eeb9e36d544add9f08f763af29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponType: 0
   gunEnd: {fileID: 4634174174531178412}
   bulletPrefab: {fileID: 7215980308398970140, guid: 6226f9fc63e6b83408c113b2e1abb022,
     type: 3}
@@ -279,3 +279,16 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1181768995272478685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8373376609506592855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281abd6e7d3f2ce45a8ad4bf59aee30c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 100

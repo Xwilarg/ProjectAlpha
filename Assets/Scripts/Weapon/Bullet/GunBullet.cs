@@ -4,8 +4,7 @@ public class GunBullet : ABullet
 {
     protected override void OnCollision(Collision collision)
     {
-        var enemy = collision.collider.GetComponent<EnemyAI>();
-        if (enemy != null)
-            enemy.LooseHp(1);
+        if (collision.collider.CompareTag("Enemy"))
+            collision.collider.GetComponent<Character>()?.LooseHp(1);
     }
 }

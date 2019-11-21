@@ -141,11 +141,17 @@ public class User
     public GameplayClass GetGameplayClass()
         => myClass;
 
-    public void SetWeapon(AWeapon value)
-        => weapon = value;
+    public void Init(AWeapon w, Character c)
+    {
+        weapon = w;
+        charac = c;
+    }
 
     public AWeapon GetWeapon()
         => weapon;
+
+    public Character GetCharacter()
+        => charac;
 
     /// -2: None (for bots)
     /// -1: Keyboard
@@ -155,4 +161,5 @@ public class User
     private GameplayClass myClass;
     private string controllerName;
     private AWeapon weapon;
+    private Character charac;
 }

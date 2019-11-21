@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
             default:
                 throw new ArgumentException("Invalid weapon type " + weaponType.ToString());
         }
-        user.SetWeapon(weapon);
+        user.Init(weapon, GetComponent<Character>());
     }
 
     public void SetVelocity(Vector3 vel)
