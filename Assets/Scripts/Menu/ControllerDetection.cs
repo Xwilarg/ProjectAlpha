@@ -111,7 +111,7 @@ public class ControllerDetection : MonoBehaviour
             for (int i = 0; i < manager.GetUsers().Count; i++)
             {
                 if (manager.GetUsers()[i].GetGameplayClass() == User.GameplayClass.NotSelected)
-                    CheckClassAvailability(index);
+                    CheckClassAvailability(i);
             }
         }
     }
