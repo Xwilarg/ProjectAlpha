@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private float speed = 10f; // Player speed
     private AWeapon weapon; // Player weapon
     private User user;
+    private PlayerStats stats;
 
     public void SetUser(User value)
     {
@@ -50,32 +51,33 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        stats = new PlayerStats();
         switch (weaponType)
         {
             case WeaponType.SMG:
                 weapon = gameObject.AddComponent<SMG>();
-                weapon.Init(bulletPrefab, gunEnd);
+                weapon.Init(bulletPrefab, gunEnd, stats);
                 break;
 
             case WeaponType.Handgun:
                 weapon = gameObject.AddComponent<Handgun>();
-                weapon.Init(bulletPrefab, gunEnd);
+                weapon.Init(bulletPrefab, gunEnd, stats);
                 break;
 
             case WeaponType.GrenadeLauncher:
                 weapon = gameObject.AddComponent<GrenadeLauncher>();
-                weapon.Init(grenadePrefab, gunEnd);
+                weapon.Init(grenadePrefab, gunEnd, stats);
                 break;
 
             case WeaponType.Fists:
                 weapon = gameObject.AddComponent<Fists>();
-                weapon.Init(null, gunEnd);
+                weapon.Init(null, gunEnd, stats);
                 break;
 
             default:
                 throw new ArgumentException("Invalid weapon type " + weaponType.ToString());
         }
-        user.Init(weapon, GetComponent<Character>());
+        user.Init(weapon, GetComponent<Character>(), stats);
     }
 
     public void SetVelocity(Vector3 vel)

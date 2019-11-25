@@ -6,6 +6,7 @@ public sealed class SMG : AWeapon
     private float _fireForce = 50f;
     private GameObject _bulletPrefab;
     private Transform _gunEnd; // From where the bullet is shoot
+    private PlayerStats _stats;
 
     public override void Fire()
     {
@@ -13,6 +14,7 @@ public sealed class SMG : AWeapon
             return;
         GameObject go = Instantiate(_bulletPrefab, _gunEnd.position, Quaternion.identity);
         go.GetComponent<Rigidbody>().AddForce(transform.forward * _fireForce, ForceMode.Impulse);
+        go.GetComponent<GunBullet>().Stats = _stats;
         Destroy(go, 5f);
         Reload();
     }
@@ -20,9 +22,10 @@ public sealed class SMG : AWeapon
     protected override float GetReloadTime()
         => _reloadTime;
 
-    public override void Init(GameObject bulletPrefab, Transform gunEnd)
+    public override void Init(GameObject bulletPrefab, Transform gunEnd, PlayerStats stats)
     {
         _bulletPrefab = bulletPrefab;
         _gunEnd = gunEnd;
+        _stats = stats;
     }
 }

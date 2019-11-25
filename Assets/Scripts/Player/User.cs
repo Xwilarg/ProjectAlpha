@@ -141,10 +141,14 @@ public class User
     public GameplayClass GetGameplayClass()
         => myClass;
 
-    public void Init(AWeapon w, Character c)
+    public PlayerStats GetPlayerStats()
+        => stats;
+
+    public void Init(AWeapon w, Character c, PlayerStats ps)
     {
         weapon = w;
         charac = c;
+        stats = ps;
     }
 
     public AWeapon GetWeapon()
@@ -162,4 +166,5 @@ public class User
     private string controllerName;
     private AWeapon weapon;
     private Character charac;
+    private PlayerStats stats;
 }

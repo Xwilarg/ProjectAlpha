@@ -2,6 +2,7 @@
 
 public class Grenade : ABullet
 {
+    public PlayerStats Stats { set; private get; }
     private Shake camShake;
     private const float shakeForce = 1f; // Force of the screen shake
     private const float shakeDuration = .1f;
@@ -18,7 +19,7 @@ public class Grenade : ABullet
         foreach (var collider in Physics.OverlapSphere(explosionPos, grenadeRadius, 1 << 8)) // Detect enemies on grenade range
         {
             if (Physics.Linecast(transform.position, explosionPos, ~(1 << 9))) // Is the enemy protected by a shield?
-                GetComponent<Character>()?.LooseHp(5);
+                GetComponent<Character>()?.LooseHp(5, Stats);
         }
         camShake.ShakeMe(shakeForce, shakeDuration);
     }

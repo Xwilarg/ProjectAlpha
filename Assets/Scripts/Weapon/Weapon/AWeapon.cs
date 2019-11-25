@@ -8,7 +8,7 @@ public abstract class AWeapon : MonoBehaviour
         _reloadTime = _refReloadTime;
     }
 
-    public abstract void Init(GameObject bulletPrefab, Transform gunEnd);
+    public abstract void Init(GameObject bulletPrefab, Transform gunEnd, PlayerStats stats);
     protected abstract float GetReloadTime();
     public abstract void Fire();
 

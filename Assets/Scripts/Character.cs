@@ -17,7 +17,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    public void LooseHp(int amount)
+    public void LooseHp(int amount, PlayerStats stats)
     {
         hp -= amount;
         if (hp <= 0)
@@ -25,6 +25,7 @@ public class Character : MonoBehaviour
             if (isEnemy)
             {
                 pm.DeleteEnemy(transform);
+                stats.EnemyKilled++;
             }
             Destroy(gameObject);
         }
