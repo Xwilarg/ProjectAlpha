@@ -27,12 +27,15 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case User.GameplayClass.Conjuror:
-            case User.GameplayClass.Brawler:
                 weaponType = WeaponType.Handgun;
                 break;
 
             case User.GameplayClass.Grenadier:
                 weaponType = WeaponType.GrenadeLauncher;
+                break;
+
+            case User.GameplayClass.Brawler:
+                weaponType = WeaponType.Fists;
                 break;
 
             default:
@@ -64,6 +67,11 @@ public class PlayerController : MonoBehaviour
                 weapon.Init(grenadePrefab, gunEnd);
                 break;
 
+            case WeaponType.Fists:
+                weapon = gameObject.AddComponent<Fists>();
+                weapon.Init(null, gunEnd);
+                break;
+
             default:
                 throw new ArgumentException("Invalid weapon type " + weaponType.ToString());
         }
@@ -89,6 +97,7 @@ public class PlayerController : MonoBehaviour
     {
         SMG,
         GrenadeLauncher,
-        Handgun
+        Handgun,
+        Fists
     }
 }
