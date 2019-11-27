@@ -16,10 +16,10 @@ public class Grenade : ABullet
     protected override void OnCollision(Collision collision)
     {
         Vector3 explosionPos = collision.GetContact(0).point;
-        foreach (var collider in Physics.OverlapSphere(explosionPos, grenadeRadius, 1 << 8)) // Detect enemies on grenade range
+        foreach (var collider in Physics.OverlapSphere(explosionPos, grenadeRadius, 1 << 10)) // Detect enemies on grenade range
         {
-            if (Physics.Linecast(transform.position, explosionPos, ~(1 << 9))) // Is the enemy protected by a shield?
-                GetComponent<Character>()?.LooseHp(5, Stats);
+            if (!Physics.Linecast(collider.transform.position, explosionPos, 1 << 9 | 1 << 16)) // Is the enemy protected by a shield?
+                collider.GetComponent<Character>()?.LooseHp(5, Stats);
         }
         camShake.ShakeMe(shakeForce, shakeDuration);
     }
