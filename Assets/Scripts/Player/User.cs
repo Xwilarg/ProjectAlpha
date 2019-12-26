@@ -69,7 +69,10 @@ public class User
         {
             string name = _controller == -1 ? "Keyboard" : Input.GetJoystickNames()[_controller];
             controllerName = name;
-            controllerText.text = name;
+            if (controllerText != null)
+            {
+                controllerText.text = name;
+            }
         }
         else
             controllerName = "AI";

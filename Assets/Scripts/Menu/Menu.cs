@@ -8,6 +8,9 @@ public class Menu : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
+    /// <summary>
+    /// If we don't go through CharacterSelection, we will start the game with 1 player and 3 IAs
+    /// </summary>
     public void QuickPlay()
     {
         SceneManager.LoadScene("CharacterSelection");

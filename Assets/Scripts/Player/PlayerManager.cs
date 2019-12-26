@@ -32,8 +32,21 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         enemies = new List<Transform>();
-        controller = GameObject.Find("IntroController").GetComponent<ControllerManager>();
-        users = controller.GetUsers();
+        var controllerGo = GameObject.Find("IntroController");
+        if (controllerGo == null)
+        {
+            var newControllerGo = new GameObject("IntroController", typeof(ControllerDetection), typeof(ControllerManager));
+            controller = newControllerGo.GetComponent<ControllerManager>();
+            users = new List<User>();
+            User player = new User(-1, null);
+            player.SetGameplayClass(User.GameplayClass.Rifleman);
+            users.Add(player);
+        }
+        else
+        {
+            controller = controllerGo.GetComponent<ControllerManager>();
+            users = controller.GetUsers();
+        }
         GameObject.Find("RpcManager")?.GetComponent<RpcManager>().StartGame(users.Count);
         Transform[] humans = new Transform[users.Count];
         int i = 0;
