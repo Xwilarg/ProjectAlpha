@@ -31,6 +31,8 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
+        bool isDebug; // Enable if we don't init players with the character selection menu. If true, AIs won't be init automatically
+
         enemies = new List<Transform>();
         var controllerGo = GameObject.Find("IntroController");
         if (controllerGo == null)
@@ -41,11 +43,13 @@ public class PlayerManager : MonoBehaviour
             User player = new User(-1, null);
             player.SetGameplayClass(User.GameplayClass.Rifleman);
             users.Add(player);
+            isDebug = true;
         }
         else
         {
             controller = controllerGo.GetComponent<ControllerManager>();
             users = controller.GetUsers();
+            isDebug = false;
         }
         GameObject.Find("RpcManager")?.GetComponent<RpcManager>().StartGame(users.Count);
         Transform[] humans = new Transform[users.Count];
@@ -67,26 +71,32 @@ public class PlayerManager : MonoBehaviour
         List<User.GameplayClass> remaningClasses = new List<User.GameplayClass>();
         for (int y = 0; y <= (int)Enum.GetValues(typeof(User.GameplayClass)).Cast<User.GameplayClass>().Max(); y++)
         {
-            if (controller.IsClassAvailable((User.GameplayClass)y))
+            if (isDebug || controller.IsClassAvailable((User.GameplayClass)y)) // If class is available. If debug mode enabled, we don't do the check
                 remaningClasses.Add((User.GameplayClass)y);
         }
 
         // Instantiate all AIs
-        for (; i < 4; i++)
+        if (!isDebug) // IAs are instantiated only if debug mode is disabled. Else they must be instantiated manually
         {
-            // Take a random class for the AI
-            var aiUser = new User(-2, null);
-            var randomClass = UnityEngine.Random.Range(0, remaningClasses.Count);
-            aiUser.SetGameplayClass(remaningClasses[randomClass]);
-            users.Add(aiUser);
-            remaningClasses.RemoveAt(randomClass);
+            for (; i < 4; i++)
+            {
+                // Take a random class for the AI
+                var aiUser = new User(-2, null);
+                var randomClass = UnityEngine.Random.Range(0, remaningClasses.Count);
+                aiUser.SetGameplayClass(remaningClasses[randomClass]);
+                users.Add(aiUser);
+                remaningClasses.RemoveAt(randomClass);
 
-            GameObject go = SpawnPlayer(i);
-            go.AddComponent<PlayerAI>().Init(humans);
-            go.GetComponent<Rigidbody>().isKinematic = true;
-            go.tag = "PlayerAI";
-            go.name = "Player " + i + " - AI";
+                GameObject go = SpawnPlayer(i);
+                go.AddComponent<PlayerAI>().Init(humans);
+                go.GetComponent<Rigidbody>().isKinematic = true;
+                go.tag = "PlayerAI";
+                go.name = "Player " + i + " - AI";
+            }
         }
+
+        // Debug scenes
+        GetComponent<DebugInitEnemies>()?.InitEnemies(humans);
     }
 
     private void Update()
